@@ -27,5 +27,9 @@ export default class GoogleDocPlugin extends FlexPlugin {
 
       return;
     }
+
+    flex.AgentDesktopView.defaultProps.splitterOptions = {
+      minimumSecondPanelSize: '60%',
+    }
   }
 }

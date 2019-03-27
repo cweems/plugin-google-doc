@@ -13,41 +13,39 @@ class GoogleDoc extends Component {
     super();
 
     this.state = {
-      iframe: null
+      iframe: { __html: `<iframe src="https://docs.google.com/document/d/11S0Mo4JeBhgY3UEefmossI7DrWbKnuApYx2l-nmmJrI/view?usp=sharing&rm=minimal" width="100%" height="${window.innerHeight}"></iframe>` }
     }
+
   }
 
   componentWillReceiveProps(props) {
-    console.log('receiving props!!', props.task)
-    let iframeContent = `<iframe src="https://docs.google.com/document/d/1V3rUhgShnnUw9kabP2O9DCMFY6mTyVRCG8G3Y9LMnzc/view?usp=sharing&rm=minimal" width="100%" height="${window.innerHeight}"></iframe>`;
 
     const taskMap = {
-      "legal_assistance": "h.oroycnqmoias",
-      "workplace_bullying": "h.trrzyyyd05ue",
-      "pay_descrimination": "h.2g3g1dy95cbe"
+      "legal_assistance": "h.2c3khb8t2ssg",
+      "workplace_bullying": "h.ctct6m9272yo ",
+      "pay_discrimination": "h.km7nabirnkb0"
     }
 
-    if (props.task) {
+    if (props.task.attributes.intent) {
 
       let heading = taskMap[props.task.attributes.intent];
-      console.log('HEADING', heading);
+      let iframeContent = `<iframe src="https://docs.google.com/document/d/11S0Mo4JeBhgY3UEefmossI7DrWbKnuApYx2l-nmmJrI/view?usp=sharing&rm=minimal#heading=${heading}" width="100%" height="${window.innerHeight}"></iframe>`;
 
-      iframeContent = `<iframe src="https://docs.google.com/document/d/1V3rUhgShnnUw9kabP2O9DCMFY6mTyVRCG8G3Y9LMnzc/view?usp=sharing&rm=minimal#heading=${heading}" width="100%" height="${window.innerHeight}"></iframe>`;
+      this.setState({
+        iframe: { __html: iframeContent }
+      });
     }
 
-    this.setState({
-      iframe: { __html: iframeContent }
-    });
 
   }
 
   render() {
-    let content = <div>No task selected</div>
+    let content;
 
     if (this.state.iframe) {
-      console.log('IFRAME SET', this.state.iframe);
       content = <div dangerouslySetInnerHTML={this.state.iframe}></div>
     }
+
     return (
       <div>
         {content}
