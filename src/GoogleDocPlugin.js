@@ -1,6 +1,6 @@
 import { FlexPlugin } from 'flex-plugin';
 import React from 'react';
-import CustomTaskListComponent from './CustomTaskListComponent';
+import GoogleDoc from './GoogleDoc';
 
 const PLUGIN_NAME = 'GoogleDocPlugin';
 
@@ -16,12 +16,16 @@ export default class GoogleDocPlugin extends FlexPlugin {
    * @param flex { typeof import('@twilio/flex-ui') }
    * @param manager { import('@twilio/flex-ui').Manager }
    */
+
   init(flex, manager) {
-    flex.AgentDesktopView.Panel1.Content.add(
-      <CustomTaskListComponent key="demo-component" />,
-      {
-        sortOrder: -1,
-      }
-    );
+    //flex.CRMContainer.Content.replace(<GoogleDoc key={'GoogleDoc'} />)
+
+    flex.CRMContainer.defaultProps.uriCallback = (task) => {
+      console.log('TASK', task);
+
+      flex.CRMContainer.Content.replace(<GoogleDoc key={'GoogleDoc'} task={task} />)
+
+      return;
+    }
   }
 }
